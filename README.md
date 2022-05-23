@@ -58,7 +58,7 @@ As the exemple above, the Transition component wraps a pure JSX element. We have
 
 ### Second use case
 
-If you're wrapping a custom component, just set it a prop named "nodeRef" that will the useRef variable. Inside your component, this prop will have to point to the ref prop of your root JSX element. That's all, no need to set any elementRef prop on the Transition component.
+If you're wrapping a custom component, just set it a prop named "nodeRef" that will take the useRef variable. Inside your component, this prop will have to point to the ref prop of your root JSX element. That's all, no need to set any elementRef prop on the Transition component.
 
 See :
 
@@ -96,8 +96,6 @@ There you go ! Have fun and feel free to bring any improvements as you like.
   - type : _string_
 - **timeout** : the duration of the animations. An array of two values can be set in order to specify different timeouts for the mounting/unmounting animations.
   - type : _number_ or _[number, number]_
-- **classPrefix** : the name your animation classes will be starting with.
-  - type : _string_
 - **elementRef** : (optional) the reference of whatever you have set as children if it is pure JSX.
   - type : _RefObject\<type of the element\>_
 - **onMount** : (optional) a callback function to be triggered immediately after the children has been mounted.
