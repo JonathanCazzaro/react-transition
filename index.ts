@@ -9,12 +9,13 @@ interface TransitionProps {
   onMount?: () => any;
   onMounted?: () => any;
   onUnmount?: () => any;
+  onUnmounted?: () => any;
 }
 
 const Transition: React.FC<TransitionProps> = (props) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [childNode, setChildNode] = useState<HTMLElement | null>();
-  const { children, timeout, trigger, classPrefix, elementRef, onMount, onMounted, onUnmount } = props;
+  const { children, timeout, trigger, classPrefix, elementRef, onMount, onMounted, onUnmount, onUnmounted } = props;
 
   useEffect(() => {
     if (childNode) {
@@ -36,6 +37,7 @@ const Transition: React.FC<TransitionProps> = (props) => {
           else {
             setMounted(false);
             setChildNode(null);
+            if (onUnmounted) onUnmounted();
           }
         };
         const unmountTimeout = setTimeout(handleUnmount, Array.isArray(timeout) ? timeout[1] : timeout);
