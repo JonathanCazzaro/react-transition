@@ -2,8 +2,7 @@
 
 ## What is it about ?
 
-React Transition is a wrapper for your components whose purpose is to apply animations on mount/exit.
-I did got inspired by React Transition Group, a pretty cool library whose purpose is similar. Though I couldn't make it work properly - as some other people - so I decided to make my own lib.
+React Transition is a wrapper for your components whose purpose is to apply animations on mount/exit. I did got inspired by React Transition Group, a pretty cool library whose purpose is similar. Though I couldn't make it work properly - as some other people - so I decided to make my own lib.
 
 ## Getting started
 
@@ -92,6 +91,8 @@ There you go ! Have fun and feel free to bring any improvements as you like.
 
 - **trigger** : the value that will indicate whether the component should me mounted or not.
   - type : _boolean_
+- **bypass** : bypasses all the animations. Simply mounts and unmounts the component according the value of trigger, keeping the active class and the onMount and onUnmount methods effective.
+  - type : _boolean_
 - **classPrefix** : the name your animation classes will be starting with.
   - type : _string_
 - **timeout** : the duration of the animations. An array of two values can be set in order to specify different timeouts for the mounting/unmounting animations.
@@ -103,4 +104,6 @@ There you go ! Have fun and feel free to bring any improvements as you like.
 - **onMounted** : (optional) a callback function to be triggered once the first timeout has passed.
   - type : _() => void_
 - **onUnmount** : (optional) a callback function to be triggered when the second timer has started.
+  - type : _() => void_
+- **onUnmounted** : (optional) a callback function to be triggered after the children has been unmounted.
   - type : _() => void_

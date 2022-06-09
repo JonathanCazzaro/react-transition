@@ -1,4 +1,4 @@
-import React, { ReactElement, RefObject, useEffect, useState } from 'react';
+import React, { ReactElement, RefObject, useEffect, useState } from "react";
 
 interface TransitionProps {
   children: ReactElement<any, any>;
@@ -6,6 +6,7 @@ interface TransitionProps {
   timeout: number | [number, number];
   classPrefix: string;
   trigger: boolean;
+  bypass?: boolean;
   onMount?: () => any;
   onMounted?: () => any;
   onUnmount?: () => any;
@@ -15,40 +16,46 @@ interface TransitionProps {
 const Transition: React.FC<TransitionProps> = (props) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [childNode, setChildNode] = useState<HTMLElement | null>();
-  const { children, timeout, trigger, classPrefix, elementRef, onMount, onMounted, onUnmount, onUnmounted } = props;
+  const { children, timeout, trigger, classPrefix, elementRef, onMount, onMounted, onUnmount, onUnmounted, bypass = false } = props;
 
   useEffect(() => {
     if (childNode) {
       if (trigger) {
         if (onMount) onMount();
-        setTimeout(
-          () => {
-            childNode.classList.replace(`${classPrefix}--mounting`, `${classPrefix}--active`);
-            if (onMounted) onMounted();
-          },
-          Array.isArray(timeout) ? timeout[0] : timeout
-        );
+        if (!bypass) {
+          setTimeout(
+            () => {
+              childNode.classList.replace(`${classPrefix}--mounting`, `${classPrefix}--active`);
+              if (onMounted) onMounted();
+            },
+            Array.isArray(timeout) ? timeout[0] : timeout
+          );
+        }
       } else {
         if (onUnmount) onUnmount();
-        childNode.classList.replace(`${classPrefix}--active`, `${classPrefix}--unmounting`);
-
-        const handleUnmount = () => {
-          if (trigger) clearTimeout(unmountTimeout);
-          else {
-            setMounted(false);
-            setChildNode(null);
-            if (onUnmounted) onUnmounted();
-          }
-        };
-        const unmountTimeout = setTimeout(handleUnmount, Array.isArray(timeout) ? timeout[1] : timeout);
+        if (!bypass) {
+          childNode.classList.replace(`${classPrefix}--active`, `${classPrefix}--unmounting`);
+          const handleUnmount = () => {
+            if (trigger) clearTimeout(unmountTimeout);
+            else {
+              setMounted(false);
+              setChildNode(null);
+              if (onUnmounted) onUnmounted();
+            }
+          };
+          const unmountTimeout = setTimeout(handleUnmount, Array.isArray(timeout) ? timeout[1] : timeout);
+        } else {
+          setMounted(false);
+          setChildNode(null);
+        }
       }
     } else {
       if (trigger) setMounted(true);
       const DOMElement = (children?.props.nodeRef as RefObject<HTMLElement>)?.current || elementRef?.current;
-      DOMElement?.classList.add(`${classPrefix}--mounting`);
+      DOMElement?.classList.add(bypass ? `${classPrefix}--active` : `${classPrefix}--mounting`);
       setChildNode(DOMElement);
     }
-  });
+  }, []);
 
   return mounted ? children : null;
 };
