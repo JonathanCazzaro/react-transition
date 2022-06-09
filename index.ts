@@ -27,6 +27,7 @@ const Transition: React.FC<TransitionProps> = (props) => {
       if (onUnmount && !trigger) onUnmount();
     } else if (childNode) {
       if (trigger) {
+        if (onMount) onMount();
         setTimeout(
           () => {
             childNode.classList.replace(`${classPrefix || "component"}--mounting`, `${classPrefix || "component"}--active`);
