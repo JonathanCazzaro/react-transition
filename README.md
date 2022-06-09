@@ -91,7 +91,7 @@ There you go ! Have fun and feel free to bring any improvements as you like.
 
 - **trigger** : the value that will indicate whether the component should me mounted or not.
   - type : _boolean_
-- **bypass** : bypasses all the animations. Simply mounts and unmounts the component according the value of trigger, keeping the active class and the onMount and onUnmount methods effective.
+- **bypass** : bypasses all the animations. Simply mounts and unmounts the component according the value of trigger, keeping the onMount and onUnmount methods effective.
   - type : _boolean_
 - **classPrefix** : the name your animation classes will be starting with.
   - type : _string_

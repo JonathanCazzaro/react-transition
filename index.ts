@@ -52,7 +52,7 @@ const Transition: React.FC<TransitionProps> = (props) => {
     } else {
       if (trigger) setMounted(true);
       const DOMElement = (children?.props.nodeRef as RefObject<HTMLElement>)?.current || elementRef?.current;
-      DOMElement?.classList.add(bypass ? `${classPrefix}--active` : `${classPrefix}--mounting`);
+      if (!bypass) DOMElement?.classList.add(`${classPrefix}--mounting`);
       setChildNode(DOMElement);
     }
   }, []);
